@@ -2,5 +2,5 @@
 
 namespace RoiaiCourierLibrary.Common;
 
-public record CourierResponse(List<Parcel> Parcels, int TotalCost);
+public record CourierResponse(List<Parcel> Parcels, int TotalCost, int SpeedyCost);
 

@@ -5,5 +5,5 @@ namespace RoiaiCourierLibrary;
 
 public interface ICourierCostCalculator
 {
-    CourierResponse CalculateTotalCost(List<Parcel> parcels);
+    CourierResponse CalculateTotalCost(List<Parcel> parcels, bool speedyShipping = false);
 }

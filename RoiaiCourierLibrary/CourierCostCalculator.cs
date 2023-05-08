@@ -5,9 +5,10 @@ namespace RoiaiCourierLibrary;
 
 public class CourierCostCalculator : ICourierCostCalculator
 {
-    public CourierResponse CalculateTotalCost(List<Parcel> parcels)
+    public CourierResponse CalculateTotalCost(List<Parcel> parcels, bool speedyShipping = false)
     {
         var totalCost = 0;
+        var speedyCost = 0;
         foreach(var item in parcels)
         {
             var cost = item.ParcelType switch
@@ -21,6 +22,12 @@ public class CourierCostCalculator : ICourierCostCalculator
 
             totalCost += cost;
         }
-        return new CourierResponse(parcels, totalCost);
+
+        if(speedyShipping)
+        {
+            speedyCost = totalCost;
+            totalCost += speedyCost;
+        }
+        return new CourierResponse(parcels, totalCost, speedyCost);
     }
 }
