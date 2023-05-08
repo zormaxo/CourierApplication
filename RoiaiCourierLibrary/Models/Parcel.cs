@@ -4,11 +4,12 @@ namespace RoiaiCourierLibrary.Models;
 
 public class Parcel
 {
-    private Parcel(int height, int width, int length)
+    private Parcel(int height, int width, int length, int weight)
     {
         Height = height;
         Width = width;
         Length = length;
+        Weight = weight;
     }
 
     public int Height { get; }
@@ -17,13 +18,15 @@ public class Parcel
 
     public int Length { get; }
 
+    public int Weight { get; }
+
     public ParcelType ParcelType => SetParcelType();
 
     public int Cost { get; set; }
 
-    public static Parcel Create(int height, int width, int length)
+    public static Parcel Create(int height, int width, int length, int weight)
     {
-        return new Parcel(height, width, length);
+        return new Parcel(height, width, length, weight);
     }
 
     private ParcelType SetParcelType()
