@@ -10,8 +10,8 @@ public class CourierCostCalculatorTests
     [TestCase(5, 5, 60, 6, false, 15)]
     [TestCase(5, 5, 100, 10, false, 25)]
     [TestCase(70, 70, 70, 6, false, 15)]
-    [TestCase(120, 120, 10, 120, false, 25)]
-    [TestCase(100, 100, 10, 100, false, 25)]
+    [TestCase(120, 120, 120, 10, false, 25)]
+    [TestCase(100, 100, 100, 10, false, 25)]
     [TestCase(5, 5, 5, 1, true, 6)]
     [TestCase(5, 5, 30, 3, true, 16)]
     [TestCase(5, 5, 60, 6, true, 30)]
@@ -137,5 +137,56 @@ public class CourierCostCalculatorTests
 
         Assert.That(response.TotalCost, Is.EqualTo(80));
         Assert.That(response.SpeedyCost, Is.EqualTo(40));
+    }
+
+
+    [Test]
+    public void CalculateTotalCost_SmallParcelOverWeightLimit_CostPerKgApplied()
+    {
+        var calculator = new CourierCostCalculator();
+        var parcel = Parcel.Create(5, 5, 5, 2);
+        var parcels = new List<Parcel> { parcel };
+
+        var response = calculator.CalculateTotalCost(parcels);
+
+        Assert.That(response.TotalCost, Is.EqualTo(5));
+    }
+
+
+    [Test]
+    public void CalculateTotalCost_MediumParcelOverWeightLimit_CostPerKgApplied()
+    {
+        var calculator = new CourierCostCalculator();
+        var parcel = Parcel.Create(30, 30, 30, 4);
+        var parcels = new List<Parcel> { parcel };
+
+        var response = calculator.CalculateTotalCost(parcels);
+
+        Assert.That(response.TotalCost, Is.EqualTo(10));
+    }
+
+
+    [Test]
+    public void CalculateTotalCost_LargeParcelOverWeightLimit_CostPerKgApplied()
+    {
+        var calculator = new CourierCostCalculator();
+        var parcel = Parcel.Create(70, 70, 70, 7);
+        var parcels = new List<Parcel> { parcel };
+
+        var response = calculator.CalculateTotalCost(parcels);
+
+        Assert.That(response.TotalCost, Is.EqualTo(17));
+    }
+
+    [Test]
+    public void CalculateTotalCost_XLargeParcelOverWeightLimit_CostPerKgApplied()
+    {
+        var calculator = new CourierCostCalculator();
+        var parcel = Parcel.Create(120, 120, 120, 11);
+        var parcels = new List<Parcel> { parcel };
+
+        var response = calculator.CalculateTotalCost(parcels);
+
+        Assert.That(response.TotalCost, Is.EqualTo(27));
     }
 }
